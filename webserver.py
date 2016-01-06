@@ -3,13 +3,12 @@
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import re
+from crud import CRUD
 
 class SQHandler(BaseHTTPRequestHandler):
 
-    def foo(self):
-
-        return {'id':676,
-                'hello':'world'}
+    def __init__(self):
+        self.crud = CRUD()
 
     def do_GET(self):
         print(self.requestline)
@@ -22,9 +21,8 @@ class SQHandler(BaseHTTPRequestHandler):
             used = results.group('used')
             game = results.group('game')
             id = results.group('id')
-            resp = (used,game,id)
+            self.crud.updateTerminal(id,used, game)
 
-        
         if (requestline.find("post_score")>=0):
             pattern = re.compile(r".*game=(?P<game>.*)&user=(?P<user>.*)&score=(?P<score>.*)\s+.*")
             results = pattern.search(requestline)
@@ -37,7 +35,7 @@ class SQHandler(BaseHTTPRequestHandler):
             pattern = re.compile(r".*game=(?P<game>.*)\s+.*")
             results = pattern.search(requestline)
             game = results.group('game')
-            resp = game
+            resp = self.crud.getScore(game)
 
 
         self.send_response(200)
