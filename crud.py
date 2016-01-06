@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 #*-*Coding: UTF-8 *-*
+
 import sqlite3
-import json
 
 class CRUD:
-    def __init__(self):
 
+    def __init__(self):
         #connection to the db
         self.connection = sqlite3.connect('database.db')
         # cursor
@@ -14,32 +14,24 @@ class CRUD:
         # specific to sqlite
         self.cursor.execute("pragma foreign_keys = on")
 
-
-    def getAvailableTerm(self):
-
+    def getAvailableTerms(self):
         cursor = self.cursor
-        request = "SELECT * FROM terminal WHERE used = 'false'"
+        request = "SELECT id FROM terminal WHERE used='0'"
         cursor.execute(request)
         terminals = cursor.fetchall()
-        return terminals
+        return list(map(lambda t: t[0], terminals))
 
     def updateTerminal(self, id, used, game='NULL'):
         cursor = self.cursor
         connection = self.connection
-        if game=='NULL':
-            request = "UPDATE terminal "
-            request += "SET used ='" + used + "' "
-            request += "WHERE id =" + id 
-        else:
-            request = "UPDATE terminal "
-            request += "SET used ='" + used + "', game = "+game
-            request += " WHERE id =" + id 
-        cursor.execute(request)
+        if game == 'NULL':
+            game = None
+        request = "UPDATE terminal SET used=?, game=? WHERE id=?"
+        cursor.execute(request, (used, game, id))
         connection.commit()
-
+        return 1
 
     def getScore(self, game):
-
         cursor = self.cursor
         request = "SELECT score, user FROM score "
         request += "WHERE game ='" + game + "' "
@@ -53,52 +45,41 @@ class CRUD:
             s['score'] = score[0]
             s['username'] = score[1]
             out += [s]
-
-        out = json.dumps(out)
         return out
 
     def insertScore(self, score, game, user):
         connection = self.connection
         cursor = self.cursor
+        if not user in self.getAllUsers():
+            request = "INSERT INTO user VALUES (?)"
+            cursor.execute(request, (user,))
         request = "INSERT INTO score"
-        request += "VALUES (score, game, user)"
-        cursor.execute(request)
+        request += " VALUES (?, ?, ?)"
+        print(request)
+        cursor.execute(request, (score, game, user))
         connection.commit()
-
+        return 1
 
     def getAllUsers(self):
-
         cursor = self.cursor
         request = "SELECT * FROM user"
         cursor.execute(request)
-        user = cursor.fetchall()
-        return user
+        users = cursor.fetchall()
+        return list(map(lambda u: u[0], users))
 
     def getAllGames(self):
-
         cursor = self.cursor
         request = "SELECT * FROM game"
         cursor.execute(request)
         games = cursor.fetchall()
-        return games
+        return list(map(lambda g: g[0], games))
 
     def isTerminalAvailable(self, id):
         """
         check if a terminal is available
         """
         cursor = self.cursor
-        cursor.execute("SELECT used WHERE id="+id)
-        resp = cursor.fetchone()[0]
-        return json.dumps({"id":resp})
+        cursor.execute("SELECT used FROM terminal WHERE id=?", (id,))
+        available = cursor.fetchone() == (1,)
+        return available
 
-    def main(self):
-        """
-        print self.getAllUsers() #OK
-        print self.getAllGames() #OK
-        print self.getAvailableTerm() #OK
-        print self.getScore("Memory")
-        #print self.updateTerminal(2,True)
-        """
-
-#c=CRUD()
-#print(c.getScore('TicTacToe'))
