@@ -2,6 +2,7 @@
 #*-*Coding: UTF-8 *-*
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import re
 
 class SQHandler(BaseHTTPRequestHandler):
 
@@ -12,12 +13,38 @@ class SQHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         print(self.requestline)
+        #urls params
+        requestline = self.requestline
+        
+        if (requestline.find("update_terminal")>=0):
+            pattern = re.compile(r".*used=(?P<used>.*)&game=(?P<game>.*)&id=(?P<id>.*)\s+.*")
+            results = pattern.search(requestline)
+            used = results.group('used')
+            game = results.group('game')
+            id = results.group('id')
+            resp = (used,game,id)
+
+        
+        if (requestline.find("post_score")>=0):
+            pattern = re.compile(r".*game=(?P<game>.*)&user=(?P<user>.*)&score=(?P<score>.*)\s+.*")
+            results = pattern.search(requestline)
+            game = results.group('game')
+            user = results.group('user')
+            score = results.group('score')
+            resp = (game,user,score)
+
+        if (requestline.find("get_score")>=0):
+            pattern = re.compile(r".*game=(?P<game>.*)\s+.*")
+            results = pattern.search(requestline)
+            game = results.group('game')
+            resp = game
+
 
         self.send_response(200)
         self.send_header('Content-type','text/html')
         self.end_headers()
 
-        resp = self.foo()
+        #resp = self.foo()
         resp = str(resp)
 
         self.wfile.write(resp.encode("utf-8"))
