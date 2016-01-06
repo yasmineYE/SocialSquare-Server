@@ -23,13 +23,15 @@ class CRUD:
         terminals = cursor.fetchall()
         return terminals
 
-    def updateTerminal(self, id, used):
+    def updateTerminal(self, id, used, game):
         cursor = self.cursor
+        connection = self.connection
         request = "UPDATE terminal "
-        request += "SET used =" + used + " "
-        request += "WHERE id =" + id + " "
+        request += "SET used ='" + used + "' "
+        request += "WHERE id =" + id + " AND game='"+game+"'"
         cursor.execute(request)
-        return
+        connection.commit()
+
 
     def getScore(self, game):
 
@@ -47,12 +49,12 @@ class CRUD:
         return out
 
     def insertScore(self, score, game, user):
-
+        connection = self.connection
         cursor = self.cursor
         request = "INSERT INTO score"
         request += "VALUES (score, game, user)"
         cursor.execute(request)
-        cursor.commit()
+        connection.commit()
 
 
     def getAllUsers(self):
