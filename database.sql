@@ -24,7 +24,7 @@ CREATE TABLE score (
 	game text,
 	user text,
 	foreign key(user) references user(username),
-	foreign key(game) references game(game));
+	foreign key(game) references game(name));
 
 
 INSERT INTO game VALUES ("Memory");
@@ -38,10 +38,10 @@ INSERT INTO user VALUES ("Yasmine");
 INSERT INTO user VALUES ("Alexandre");
 INSERT INTO user VALUES ("Francois");
 
-/*
+
 INSERT INTO score VALUES ("20", "TicTacToe", "Yasmine");
 INSERT INTO score VALUES ("100", "TicTacToe", "Alexandre");
 INSERT INTO score VALUES ("100", "TicTacToe", "Francois");
-*/
+
 
 COMMIT;

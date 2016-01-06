@@ -36,15 +36,19 @@ class CRUD:
     def getScore(self, game):
 
         cursor = self.cursor
-        request = "SELECT score FROM score "
+        request = "SELECT score, user FROM score "
         request += "WHERE game ='" + game + "' "
-        request += "ORDER BY score DESC"
+        request += "ORDER BY score DESC "
+        request += "LIMIT 10;"
         cursor.execute(request)
         scores = cursor.fetchall()
-        out  = dict()
+        out  = []
         for score in scores:
-            out['score'] = score[0]
-        
+            s = {}
+            s['score'] = score[0]
+            s['username'] = score[1]
+            out += [s]
+
         out = json.dumps(out)
         return out
 
