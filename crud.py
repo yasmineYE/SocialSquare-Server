@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 #*-*Coding: UTF-8 *-*
 import sqlite3
+import json
 
 class CRUD:
     def __init__(self):
@@ -22,31 +23,39 @@ class CRUD:
         terminals = cursor.fetchall()
         return terminals
 
-    def updateTerminal(self, id, used):
+    def updateTerminal(self, id, used, game):
         cursor = self.cursor
+        connection = self.connection
         request = "UPDATE terminal "
-        request += "SET used =" + used + " "
-        request += "WHERE id =" + id + " "
+        request += "SET used ='" + used + "' "
+        request += "WHERE id =" + id + " AND game='"+game+"'"
         cursor.execute(request)
-        return
+        connection.commit()
+
 
     def getScore(self, game):
 
         cursor = self.cursor
         request = "SELECT score FROM score "
-        request += "WHERE game =" + game + " "
+        request += "WHERE game ='" + game + "' "
         request += "ORDER BY score DESC"
         cursor.execute(request)
-        score = cursor.fetchall()
-        return score
+        scores = cursor.fetchall()
+        out  = dict()
+        for score in scores:
+            out['score'] = score[0]
+        
+        out = json.dumps(out)
+        return out
 
     def insertScore(self, score, game, user):
-
+        connection = self.connection
         cursor = self.cursor
         request = "INSERT INTO score"
         request += "VALUES (score, game, user)"
         cursor.execute(request)
-        return
+        connection.commit()
+
 
     def getAllUsers(self):
 
@@ -65,11 +74,13 @@ class CRUD:
         return games
 
     def main(self):
+        """
         print self.getAllUsers() #OK
         print self.getAllGames() #OK
         print self.getAvailableTerm() #OK
         print self.getScore("Memory")
         #print self.updateTerminal(2,True)
+        """
 
 c=CRUD()
-c.main()
+print(c.getScore('TicTacToe'))
