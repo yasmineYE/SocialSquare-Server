@@ -13,10 +13,9 @@ class CRUD:
         # specific to sqlite
         self.cursor.execute("pragma foreign_keys = on")
 
+
     def getAvailableTerm(self):
-        """
-        return all available terminals
-        """
+
         cursor = self.cursor
         request = "SELECT * FROM terminal WHERE used = 'false'"
         cursor.execute(request)
@@ -26,60 +25,50 @@ class CRUD:
     def updateTerminal(self, id, used):
         cursor = self.cursor
         request = "UPDATE terminal "
-        request += "SET used='used'"
-        request += "WHERE id='id' "
+        request += "SET used =" + used + " "
+        request += "WHERE id =" + id + " "
         cursor.execute(request)
-        terminals = cursor.fetchall()
-        return terminals
+        return
 
     def getScore(self, game):
-        """
-        return all scores for a specific game by descending order
-        """
+
         cursor = self.cursor
-        request = "SELECT score FROM score"
-        request += "WHERE game='game'"
+        request = "SELECT score FROM score "
+        request += "WHERE game =" + game + " "
         request += "ORDER BY score DESC"
         cursor.execute(request)
-        terminals = cursor.fetchall()
-        return terminals
+        score = cursor.fetchall()
+        return score
 
     def insertScore(self, score, game, user):
-        """
-        Insert (score,game,user) into the table score
-        """
+
         cursor = self.cursor
         request = "INSERT INTO score"
-        request += "VALUES ('score', 'game', 'user')"
+        request += "VALUES (score, game, user)"
         cursor.execute(request)
-        terminals = cursor.fetchall()
-        return terminals
+        return
 
     def getAllUsers(self):
-        """
-        return all available terminals
-        """
+
         cursor = self.cursor
-        request = "SELECT * FROM users"
+        request = "SELECT * FROM user"
         cursor.execute(request)
-        terminals = cursor.fetchall()
-        return terminals
+        user = cursor.fetchall()
+        return user
 
     def getAllGames(self):
-        """
-        return all available terminals
-        """
+
         cursor = self.cursor
         request = "SELECT * FROM game"
         cursor.execute(request)
-        terminals = cursor.fetchall()
-        return terminals
+        games = cursor.fetchall()
+        return games
 
     def main(self):
         print self.getAllUsers() #OK
         print self.getAllGames() #OK
-        print self.getAvalaibleTerm() #OK
-        #print self.getScore('TIC TAC TOE')
+        print self.getAvailableTerm() #OK
+        print self.getScore("Memory")
         #print self.updateTerminal(2,True)
 
 c=CRUD()
