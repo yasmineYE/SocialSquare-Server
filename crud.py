@@ -26,7 +26,7 @@ class CRUD:
     def updateTerminal(self, id, used, game='NULL'):
         cursor = self.cursor
         connection = self.connection
-         if game=='NULL':
+        if game=='NULL':
             request = "UPDATE terminal "
             request += "SET used ='" + used + "' "
             request += "WHERE id =" + id 
@@ -100,5 +100,5 @@ class CRUD:
         #print self.updateTerminal(2,True)
         """
 
-c=CRUD()
-print(c.getScore('TicTacToe'))
+#c=CRUD()
+#print(c.getScore('TicTacToe'))
