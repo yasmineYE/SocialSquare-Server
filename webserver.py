@@ -16,12 +16,14 @@ class SQHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type','text/html')
         self.end_headers()
-        
+
         resp = self.foo()
         resp = str(resp)
-        
+
         self.wfile.write(resp.encode("utf-8"))
 
+    def stop(self):
+        self.server.shutdown()
 
 if __name__ == "__main__":
     PORT = 8000

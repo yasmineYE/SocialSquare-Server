@@ -7,9 +7,8 @@ class CRUD:
 
         #connection to the db
         self.connection = sqlite3.connect('database.db')
-
         # cursor
-        self.cursor = sqlite3.cursor()
+        self.cursor = self.connection.cursor()
 
     def getAvalaibleTerm(self):
         """
@@ -19,3 +18,40 @@ class CRUD:
         cursor.execute("SELECT * FROM terminal WHERE used = false")
         terminals = cursor.fetchall()
         return terminals
+
+    def getScore(self, game, user):
+        """
+        return all available terminals
+        """
+        cursor = self.cursor
+        request = "SELECT score FROM score"
+        request += "WHERE game='game' AND user = 'user'"
+        cursor.execute(request)
+        terminals = cursor.fetchall()
+        return terminals
+
+    def getAllUsers(self):
+        """
+        return all available terminals
+        """
+        cursor = self.cursor
+        request = "SELECT * FROM users"
+        cursor.execute(request)
+        terminals = cursor.fetchall()
+        return terminals
+
+    def getAllGames(self):
+        """
+        return all available terminals
+        """
+        cursor = self.cursor
+        request = "SELECT * FROM game"
+        cursor.execute(request)
+        terminals = cursor.fetchall()
+        return terminals
+
+    def main(self):
+        print self.getAllUsers()
+
+c=CRUD()
+c.main()
