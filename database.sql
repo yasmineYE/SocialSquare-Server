@@ -34,5 +34,14 @@ INSERT INTO game VALUES ("Dance");
 INSERT INTO game VALUES ("HopScotch");
 INSERT INTO game VALUES ("RunAfterTheLight");
 
+INSERT INTO user VALUES ("Yasmine");
+INSERT INTO user VALUES ("Alexandre");
+INSERT INTO user VALUES ("Francois");
+
+/*
+INSERT INTO score VALUES ("20", "TicTacToe", "Yasmine");
+INSERT INTO score VALUES ("100", "TicTacToe", "Alexandre");
+INSERT INTO score VALUES ("100", "TicTacToe", "Francois");
+*/
 
 COMMIT;
