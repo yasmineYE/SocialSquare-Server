@@ -1,8 +1,8 @@
-PRAGMA foreign_keys=ON;
+PRAGMA foreign_keys = ON;
 BEGIN TRANSACTION;
 
 CREATE TABLE terminal(
-	id integer auto increment primary key,
+	id integer primary key autoincrement,
 	used boolean,
 	game text,
 	foreign key(game) references game(name));

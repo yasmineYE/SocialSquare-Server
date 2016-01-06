@@ -9,8 +9,11 @@ class CRUD:
         self.connection = sqlite3.connect('database.db')
         # cursor
         self.cursor = self.connection.cursor()
+        # foreign key constraints
+        # specific to sqlite
+        self.cursor.execute("pragma foreign_keys = on")
 
-    def getAvalaibleTerm(self):
+    def getAvailableTerm(self):
         """
         return all available terminals
         """
