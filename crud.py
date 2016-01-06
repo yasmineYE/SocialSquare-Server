@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 #*-*Coding: UTF-8 *-*
 import sqlite3
+import json
 
 class CRUD:
     def __init__(self):
@@ -34,11 +35,16 @@ class CRUD:
 
         cursor = self.cursor
         request = "SELECT score FROM score "
-        request += "WHERE game =" + game + " "
+        request += "WHERE game ='" + game + "' "
         request += "ORDER BY score DESC"
         cursor.execute(request)
-        score = cursor.fetchall()
-        return score
+        scores = cursor.fetchall()
+        out  = dict()
+        for score in scores:
+            out['score'] = score[0]
+        
+        out = json.dumps(out)
+        return out
 
     def insertScore(self, score, game, user):
 
@@ -65,11 +71,13 @@ class CRUD:
         return games
 
     def main(self):
+        """
         print self.getAllUsers() #OK
         print self.getAllGames() #OK
         print self.getAvailableTerm() #OK
         print self.getScore("Memory")
         #print self.updateTerminal(2,True)
+        """
 
 c=CRUD()
-c.main()
+print(c.getScore('TicTacToe'))
