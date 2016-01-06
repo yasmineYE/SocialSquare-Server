@@ -9,13 +9,16 @@ class CRUD:
         self.connection = sqlite3.connect('database.db')
         # cursor
         self.cursor = self.connection.cursor()
+        # foreign key constraints
+        # specific to sqlite
+        self.cursor.execute("pragma foreign keys = on")
 
-    def getAvalaibleTerm(self):
+    def getAvailableTerm(self):
         """
         return all available terminals
         """
         cursor = self.cursor
-        cursor.execute("SELECT * FROM terminal WHERE used = false")
+        cursor.execute("SELECT * FROM terminal WHERE used = 'false'")
         terminals = cursor.fetchall()
         return terminals
 
