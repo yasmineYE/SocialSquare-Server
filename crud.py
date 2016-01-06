@@ -23,12 +23,17 @@ class CRUD:
         terminals = cursor.fetchall()
         return terminals
 
-    def updateTerminal(self, id, used, game):
+    def updateTerminal(self, id, used, game='NULL'):
         cursor = self.cursor
         connection = self.connection
-        request = "UPDATE terminal "
-        request += "SET used ='" + used + "' "
-        request += "WHERE id =" + id + " AND game='"+game+"'"
+         if game=='NULL':
+            request = "UPDATE terminal "
+            request += "SET used ='" + used + "' "
+            request += "WHERE id =" + id 
+        else:
+            request = "UPDATE terminal "
+            request += "SET used ='" + used + "', game = "+game
+            request += " WHERE id =" + id 
         cursor.execute(request)
         connection.commit()
 
@@ -76,6 +81,15 @@ class CRUD:
         cursor.execute(request)
         games = cursor.fetchall()
         return games
+
+    def isTerminalAvailable(self, id):
+        """
+        check if a terminal is available
+        """
+        cursor = self.cursor
+        cursor.execute("SELECT used WHERE id="+id)
+        resp = cursor.fetchone()[0]
+        return json.dumps({"id":resp})
 
     def main(self):
         """
