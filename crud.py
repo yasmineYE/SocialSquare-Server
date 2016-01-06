@@ -11,7 +11,7 @@ class CRUD:
         self.cursor = self.connection.cursor()
         # foreign key constraints
         # specific to sqlite
-        self.cursor.execute("pragma foreign keys = on")
+        self.cursor.execute("pragma foreign_keys = on")
 
     def getAvailableTerm(self):
         """
@@ -54,7 +54,7 @@ class CRUD:
         return terminals
 
     def main(self):
-        print self.getAllUsers()
+        print(self.getAllUsers())
 
-c=CRUD()
-c.main()
+#c=CRUD()
+#c.main()
