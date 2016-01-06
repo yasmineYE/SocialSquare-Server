@@ -52,7 +52,8 @@ class CRUD:
         request = "INSERT INTO score"
         request += "VALUES (score, game, user)"
         cursor.execute(request)
-        return
+        cursor.commit()
+
 
     def getAllUsers(self):
 
