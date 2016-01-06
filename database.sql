@@ -6,7 +6,6 @@ DROP TABLE IF EXISTS game;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS score;
 
-
 CREATE TABLE terminal(
 	id integer primary key autoincrement,
 	used boolean,
@@ -38,10 +37,11 @@ INSERT INTO user VALUES ("Yasmine");
 INSERT INTO user VALUES ("Alexandre");
 INSERT INTO user VALUES ("Francois");
 
-
 INSERT INTO score VALUES ("20", "TicTacToe", "Yasmine");
 INSERT INTO score VALUES ("100", "TicTacToe", "Alexandre");
 INSERT INTO score VALUES ("100", "TicTacToe", "Francois");
 
+INSERT INTO terminal VALUES ("1", "False", NULL);
+INSERT INTO terminal VALUES ("2", "False", NULL);
 
 COMMIT;
