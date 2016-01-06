@@ -8,14 +8,13 @@ CREATE TABLE terminal(
 	foreign key(game) references game(name));
 
 CREATE TABLE game(
-	name text);
+	name text primary key);
 
 CREATE TABLE users(
 	username text primary key);
 
 CREATE TABLE score (
 	score integer,
-	id integer,
 	game text,
 	user text,
 	foreign key(user) references users(username),
