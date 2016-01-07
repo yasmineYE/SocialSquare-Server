@@ -44,6 +44,15 @@ class SQHandler(BaseHTTPRequestHandler):
             game = self.get(requestline, "game")
             resp = crud.getScore(game)
 
+        if (requestline.find("get_terminal")>=0):
+            #check if a terminal is available
+            terminal_id = self.get(requestline,'id')
+            resp = crud.isTerminalAvailable(terminal_id)
+
+        if(requestline.find("get_game")>=0):
+            resp = crud.getAllGames()
+
+
         self.send_response(200)
         self.send_header('Content-type','text/html')
         self.end_headers()
