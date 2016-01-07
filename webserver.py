@@ -3,6 +3,7 @@
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import re
+import json
 from crud import CRUD
 
 class SQHandler(BaseHTTPRequestHandler):
@@ -13,11 +14,11 @@ class SQHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         crud = CRUD()
-        
+
         print(self.requestline)
         #urls params
         requestline = self.requestline
-        
+
         if (requestline.find("update_terminal")>=0):
             #pattern = re.compile(r".*used=(?P<used>.*)&game=(?P<game>.*)&id=(?P<id>.*)\s+.*")
             #results = pattern.search(requestline)
@@ -49,21 +50,18 @@ class SQHandler(BaseHTTPRequestHandler):
             #resp = game
             resp = crud.getScore(game)
 
-
         self.send_response(200)
         self.send_header('Content-type','text/html')
         self.end_headers()
 
-        #resp = self.foo()
-        resp = str(resp)
-
-        self.wfile.write(resp.encode("utf-8"))
+        self.wfile.write(json.dumps(resp).encode("utf-8"))
 
     def stop(self):
         self.server.shutdown()
 
 if __name__ == "__main__":
     PORT = 8000
-    server = HTTPServer(('',PORT), SQHandler)
-    print("starting server on port "+str(PORT))
+    server = HTTPServer(('', PORT), SQHandler)
+    print("starting server on port", PORT)
     server.serve_forever()
+
