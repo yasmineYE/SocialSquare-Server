@@ -43,7 +43,7 @@ class CRUD:
             s = {}
             s['score'] = score[0]
             s['username'] = score[1]
-            out += [s]
+            out.append(s)
         return out
 
     def insertScore(self, score, game, user):
