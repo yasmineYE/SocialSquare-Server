@@ -52,6 +52,10 @@ class SQHandler(BaseHTTPRequestHandler):
         if(requestline.find("get_game")>=0):
             resp = crud.getAllGames()
 
+        if(requestline.find("get_users")>=0):
+            #get all users
+            resp = crud.getAllUsers()
+
 
         self.send_response(200)
         self.send_header('Content-type','text/html')
