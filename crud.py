@@ -27,7 +27,7 @@ class CRUD:
         if game == 'NULL':
             game = None
         request = "UPDATE terminal SET used=?, game=? WHERE id=?"
-        cursor.execute(request, (used, game, id))
+        cursor.execute(request, (used == 'true', game, id))
         connection.commit()
         return 1
 
@@ -78,6 +78,6 @@ class CRUD:
         """
         cursor = self.cursor
         cursor.execute("SELECT used FROM terminal WHERE id=?", (id,))
-        available = cursor.fetchone() == (1,)
-        return available
+        used = cursor.fetchone() == (1,)
+        return {'used': used}
 
