@@ -36,7 +36,6 @@ class CRUD:
         request = "SELECT score, user FROM score "
         request += "WHERE game ='" + game + "' "
         request += "ORDER BY score DESC "
-        request += "LIMIT 10;"
         cursor.execute(request)
         scores = cursor.fetchall()
         out  = []
@@ -55,7 +54,6 @@ class CRUD:
             cursor.execute(request, (user,))
         request = "INSERT INTO score"
         request += " VALUES (?, ?, ?)"
-        print(request)
         cursor.execute(request, (score, game, user))
         connection.commit()
         return 1
