@@ -21,6 +21,7 @@ class SQHandler(BaseHTTPRequestHandler):
         return value
 
     def do_GET(self):
+        # handle GET requests
         crud = CRUD()
 
         print(self.requestline)
@@ -38,7 +39,7 @@ class SQHandler(BaseHTTPRequestHandler):
             game = self.get(requestline, "game")
             user = self.get(requestline, 'user')
             score = self.get(requestline, 'score')
-            resp = (game,user,score)
+            crud.insertScore(score, game, user)
 
         if (requestline.find("get_score")>=0):
             game = self.get(requestline, "game")
@@ -49,18 +50,19 @@ class SQHandler(BaseHTTPRequestHandler):
             terminal_id = self.get(requestline,'id')
             resp = crud.isTerminalAvailable(terminal_id)
 
-        if(requestline.find("get_game")>=0):
+        if(requestline.find("get_games")>=0):
             resp = crud.getAllGames()
 
         if(requestline.find("get_users")>=0):
             #get all users
             resp = crud.getAllUsers()
 
-
+        #header
         self.send_response(200)
         self.send_header('Content-type','text/html')
         self.end_headers()
-
+        #response data
+        print(resp)
         self.wfile.write(json.dumps(resp).encode("utf-8"))
 
 if __name__ == "__main__":
@@ -68,4 +70,3 @@ if __name__ == "__main__":
     server = HTTPServer(('', PORT), SQHandler)
     print("starting server on port", PORT)
     server.serve_forever()
-
