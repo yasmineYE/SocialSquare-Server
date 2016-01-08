@@ -1,0 +1,33 @@
+Dans le fichier crud.py est géré "la création, la lecture, la mise à jour et la
+suppression" des données dans la base de données.
+
+CRUD:
+	getAvailableTerms():
+		récupère tous les terminaux disponibles
+
+	updateTerminal():
+		Met à jour l'état du terminal
+		argument:
+			id		identifiant du terminal
+			used	état du terminal
+			game	(optionnel) le jeu en cours sur le terminal
+
+	getScore():
+		Récupère tous les scores d'un jeu
+		argument:
+			game	le jeu pour lequel on récupère les scores
+
+	insertScore():
+		insère un nouveau score dans la base
+		argument:
+			score	le score à insérer
+			game	le jeu en cours
+			user	l'utilisateur
+
+	getAllUsers():
+		récupère tous les utilisateurs
+
+	isTerminalAvailable():
+		vérifie si un terminal est disponible
+		argument:
+			id		identifiant d'un utilisateur

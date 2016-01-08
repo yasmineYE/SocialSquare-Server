@@ -1,0 +1,13 @@
+Dans le fichier webserver.py est géré le serveur HTTP, qui utilise un module
+python.  Il ne s'agit pas d'un serveur de production.
+
+SQHandler:
+	get():
+		récupère le paramètre d'un URL
+		argument:
+			url		url reçu
+			param	paramètre à récupérer
+
+	do_GET():
+		gére les les réquêtes GET et envoie les réponses
+

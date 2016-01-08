@@ -15,6 +15,9 @@ class CRUD:
         self.cursor.execute("pragma foreign_keys = on")
 
     def getAvailableTerms(self):
+        """
+        retrieve all available terms
+        """
         cursor = self.cursor
         request = "SELECT id FROM terminal WHERE used='0'"
         cursor.execute(request)
@@ -22,6 +25,9 @@ class CRUD:
         return list(map(lambda t: t[0], terminals))
 
     def updateTerminal(self, id, used, game='NULL'):
+        """
+        update terminal
+        """
         cursor = self.cursor
         connection = self.connection
         if game == 'NULL':
@@ -32,6 +38,9 @@ class CRUD:
         return 1
 
     def getScore(self, game):
+        """
+        retrieve all game's score
+        """
         cursor = self.cursor
         request = "SELECT score, user FROM score "
         request += "WHERE game ='" + game + "' "
@@ -47,6 +56,9 @@ class CRUD:
         return out
 
     def insertScore(self, score, game, user):
+        """
+        insert a new user score
+        """
         connection = self.connection
         cursor = self.cursor
         if not user in self.getAllUsers():
@@ -59,6 +71,9 @@ class CRUD:
         return 1
 
     def getAllUsers(self):
+        """
+        retrieve all users
+        """
         cursor = self.cursor
         request = "SELECT * FROM user"
         cursor.execute(request)
@@ -66,6 +81,9 @@ class CRUD:
         return list(map(lambda u: u[0], users))
 
     def getAllGames(self):
+        """
+        retrieve all games 
+        """
         cursor = self.cursor
         request = "SELECT * FROM game"
         cursor.execute(request)
